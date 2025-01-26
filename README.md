@@ -43,6 +43,7 @@ If you or your organization gets value out of this role, I would very much appre
     - [tailscale\_authkey](#tailscale_authkey)
     - [tailscale\_tags](#tailscale_tags)
     - [tailscale\_up\_skip](#tailscale_up_skip)
+    - [tailscale\_install\_skip](#tailscale_install_skip)
   - [Optional](#optional)
     - [state](#state)
     - [tailscale\_args](#tailscale_args)
@@ -149,6 +150,13 @@ For example, `tailscale_tags: ['worker']` translates to `--advertise-tags=tag:wo
 Whether to install and configure Tailscale as a service but skip running `tailscale up`.
 Helpful when packaging up a Tailscale installation into a build process, such as AMI creation,
 when the server should not yet authenticate to your Tailscale network.
+
+### tailscale_install_skip
+
+**Default**: `false`
+
+Whether to skip installing and configuring Tailscale as a service but still allow running `tailscale up`.
+Helpful when self-managing a Tailscale installation, but want to use this role to authenticate.
 
 ## Optional
 
@@ -351,6 +359,17 @@ Install Tailscale, but don't authenticate to the network:
     - role: artis3n.tailscale
       vars:
         tailscale_up_skip: true
+```
+
+Authenticate Tailscale to the network, but don't install:
+
+```yaml
+- name: Servers
+  hosts: all
+  roles:
+    - role: artis3n.tailscale
+      vars:
+        tailscale_install_skip: true
 ```
 
 De-register and uninstall a Tailscale node:
